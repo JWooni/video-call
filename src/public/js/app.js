@@ -7,6 +7,13 @@ let myStream;
 let muted = false;
 let cameraOff = false;
 
+async function getCameras() {
+	try{
+		const devices = await navigator.mediaDevices.enumerateDevices();
+		console.log(devices);
+	}
+}
+
 async function getMedia() {
   try {
     myStream = await navigator.mediaDevices.getUserMedia({
@@ -14,6 +21,7 @@ async function getMedia() {
       video: true,
     });
     myFace.srcObject = myStream;
+    await getCameras();
   } catch (e) {
     console.log(e);
   }
@@ -35,6 +43,9 @@ function handleMuteClick() {
 }
 
 function handleCameraClick() {
+  myStream
+    .getVideoTracks()
+    .forEach((track) => (track.enabled = !track.enabled));
   if (cameraOff) {
     cameraBtn.innerText = "Turn Camera Off";
     cameraOff = false;
