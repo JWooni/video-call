@@ -116,5 +116,7 @@ socket.on("welcome", () => {
 // RTC Code
 function makeConnection() {
   myPeerConnection = new RTCPeerConnection();
-  console.log(myStream.getTarcks());
+  myStream
+    .getTarcks()
+    .forEach((track) => myPeerConnection.addTrack(track, myStream));
 }
